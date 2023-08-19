@@ -3,7 +3,7 @@ package com.example.test.domain
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MemberMock {
+class MemberMock {/*
     var members: ArrayList<Member>
     init{
         members = createMembersMockArray()
@@ -29,5 +29,5 @@ class MemberMock {
         }
         return output
     }
-
+*/
 }

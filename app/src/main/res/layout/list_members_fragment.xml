@@ -6,13 +6,12 @@
     <data>
         <variable
             name="listMembersViewModel"
-            type="com.example.test.screens.members.ListMembersViewModel" />
+            type="com.example.test.screens.members.MemberListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="56dp"
         tools:context=".ListMembersFragment">
 
         <SearchView
@@ -35,7 +34,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="50dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

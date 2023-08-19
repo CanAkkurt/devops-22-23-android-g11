@@ -5,17 +5,9 @@
 - ImagesServer: /
 
 ## How to run
-Admin 
-Username: admin@hogent.be 
-Password: Hogent123 
-Manager 
-Username:Manager@hogent.be 
-Password:Hogent123 
-Viewer 
-
-Username:Viewer@hogent.be 
-
-Password:Hogent123 
+login:kadir.akkurt@student.hogent.be
+pass:Admin123
+roles:admin
 
 ## Members
 > Fill in this information

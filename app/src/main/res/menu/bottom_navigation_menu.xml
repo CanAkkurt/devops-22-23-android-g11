@@ -24,5 +24,9 @@
         android:enabled="true"
         android:icon="@drawable/members"
         android:title="@string/members" />
+    <item
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home" />
 
 </menu>

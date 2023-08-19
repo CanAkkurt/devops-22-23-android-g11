@@ -57,4 +57,6 @@
     <string name="com_auth0_client_id">GWoLdOPzWkZmqJ6ioVSlIyoTTk0QWTeJ</string>
     <string name="com_auth0_domain">dev-0oj1g2wm3cvd863w.us.auth0.com</string>
     <string name="com_auth0_scheme">Vic</string>
+    <string name="home">Home</string>
+    <string name="log_out">Log out</string>
 </resources>

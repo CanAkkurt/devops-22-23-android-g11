@@ -26,7 +26,7 @@ class ViewHolder(val binding : CustomerListItemBinding) : RecyclerView.ViewHolde
 
     fun bind(clickListener: CustomerListener, item : Customer) {
         binding.textviewName.text = item.name
-        //binding.textviewDepartment.text = item.department.toString()
+//        binding.textviewDepartment.text = item.department.toString()
         binding.customer = item
         binding.clickListener = clickListener
         binding.executePendingBindings()

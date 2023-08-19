@@ -17,4 +17,13 @@
         android:id="@+id/listMembersFragment"
         android:icon="@drawable/members"
         android:title="@string/members" />
+    <item
+        android:id="@+id/HomeFragment"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/logOut"
+        android:icon="@drawable/ic_baseline_logout_24"
+        android:title="@string/log_out" />
 </menu>

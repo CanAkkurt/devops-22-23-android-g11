@@ -28,19 +28,19 @@ class VirtualMachineViewHolder(val binding: VmItemBinding) : RecyclerView.ViewHo
     fun bind(clickListener: VirtualMachineListener, item : VirtualMachine) {
 
 
-        if(item.beginDate <= LocalDate.now() && //startDate is in past
-            item.endDate > LocalDate.now() && //endDate is in future
-            item.beginDate < item.endDate//startdate is before enddate
-        ){
-            binding.vmActiveTextview.text = "actief"
-        }
-        else{
-            binding.vmActiveTextview.text = "inactief"
-        }
+//        if(item.beginDate <= LocalDate.now() && //startDate is in past
+//            item.endDate > LocalDate.now() && //endDate is in future
+//            item.beginDate < item.endDate//startdate is before enddate
+//        ){
+//            binding.vmActiveTextview.text = "actief"
+//        }
+//        else{
+//            binding.vmActiveTextview.text = "inactief"
+//        }
 
         binding.vmNameTextview.text = item.name
 
-        binding.vmVcpuTextview.text = item.vCPUAmount.toString()
+        binding.vmVcpuTextview.text = item.vcpUAmount.toString()
         binding.vmStorageTextview.text = item.storageAmount.toString() + "GB"
         binding.vmMemoryTextview.text = item.memoryAmount.toString() + "GB"
 

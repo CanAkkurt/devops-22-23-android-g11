@@ -9,10 +9,10 @@
         android:name="com.example.test.HomeFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_home">
-
+<!-- TODO: users to members -->
         <action
             android:id="@+id/action_SecondFragment_to_listUsersFragment"
-            app:destination="@id/listCustomersFragment" />
+            app:destination="@id/listMembersFragment" />
         <action
             android:id="@+id/action_SecondFragment_to_virtualMachineListFragment"
             app:destination="@id/virtualMachineListFragment" />
@@ -28,12 +28,12 @@
         android:name="com.example.test.screens.customers.ListCustomersFragment"
         android:label="Beheer gebruikers" >
         <action
-            android:id="@+id/action_listCustomersFragment_to_customerFragment"
+            android:id="@+id/action_listCustomerFragment_to_customerFragment"
             app:destination="@id/customerFragment" />
     </fragment>
     <fragment
         android:id="@+id/listMembersFragment"
-        android:name="com.example.test.screens.members.ListMembersFragment"
+        android:name="com.example.test.screens.members.MemberListFragment"
         android:label="Beheer members">
         <action
             android:id="@+id/action_listMembersFragment_to_memberFragment"
@@ -59,7 +59,7 @@
     <fragment
         android:id="@+id/customerFragment"
         android:name="com.example.test.screens.customers.CustomerFragment"
-        android:label="Detail klant">
+        android:label="Detail klant" >
         <argument
             android:name="customerId"
             app:argType="integer" />

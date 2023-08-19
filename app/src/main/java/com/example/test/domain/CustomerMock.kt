@@ -5,11 +5,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class CustomerMock() {
+    /*
     var customers: ArrayList<Customer>
     init{
         customers = createUserMockArray()
     }
-    private fun createUserMockArray(): ArrayList<Customer>{
+   private fun createUserMockArray(): ArrayList<Customer>{
         var random: Random = Random();
 
         var departments = Department.values()
@@ -30,5 +31,5 @@ class CustomerMock() {
             ))
         }
         return output
-    }
+    }*/
 }

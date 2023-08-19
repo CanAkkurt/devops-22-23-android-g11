@@ -3,10 +3,13 @@ package com.example.test
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
@@ -24,9 +27,12 @@ import com.auth0.android.result.UserProfile
 import com.example.test.databinding.ActivityMainBinding
 import com.example.test.screens.login.LoginActivity
 import com.example.test.screens.login.LoginFragment
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+//import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,13 +60,16 @@ class MainActivity : AppCompatActivity() {
         binding.root.log_out.setOnClickListener { logout() }
 
 
+
         //code for overflow menu
+
         addMenuProvider(object: MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.overflow_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+
                 if(menuItem.itemId == R.id.aboutFragment) {
                     return NavigationUI.onNavDestinationSelected(menuItem, navController)
                 }
@@ -69,19 +78,36 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        //setup drawer menu
+
+        addMenuProvider(object: MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.drawer_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                if(menuItem.itemId == R.id.logOut) {
+                    logout()
+                    return true
+                }
+                return false
+            }
+
+        })
+
         setSupportActionBar(toolbar)
+
 
         appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         NavigationUI.setupWithNavController(binding.navView, navController)
 
+
         //setup bottom nav bar
-        binding.bottomNavigationView.setupWithNavController(navController)
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            NavigationUI.onNavDestinationSelected(it, navController)
-            true
-        }
+//        binding.bottomNavigationView.setupWithNavController(navController)
+//        binding.bottomNavigationView.setOnItemSelectedListener {
+//            NavigationUI.onNavDestinationSelected(it, navController)
+//            true
+//        }
 
     }
 
@@ -105,7 +131,7 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onSuccess(credentials: com.auth0.android.result.Credentials) {
                     cachedCredentials = credentials
-                    showSnackBar("Success: ${credentials.accessToken}")
+                    showSnackBar("Success: ${credentials.user.name}")
 
                     showUserProfile()
 //                    val intent = Intent(applicationContext, MainActivity::class.java)
@@ -148,11 +174,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showSnackBar(text: String) {
-        Snackbar.make(
-            binding.root,
-            text,
-            Snackbar.LENGTH_LONG
-        ).show()
+        val snackBarView = Snackbar.make(binding.root, text , Snackbar.LENGTH_LONG)
+        val view = snackBarView.view
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        view.layoutParams = params
+//        view.background = ContextCompat.getDrawable(context,R.drawable.custom_drawable) // for custom background
+        snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        snackBarView.show()
     }
 
     private fun logout() {

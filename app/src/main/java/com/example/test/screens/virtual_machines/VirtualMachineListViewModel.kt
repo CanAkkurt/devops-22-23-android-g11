@@ -1,29 +1,43 @@
 package com.example.test.screens.virtual_machines
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.test.domain.VirtualMachine
-import com.example.test.domain.VirtualMachineMock
+import com.example.test.database.VirutalMachine.VirtualMachineDatabase
+import com.example.test.network.ApiStatus
+import com.example.test.repository.VirtualMachineRepository
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
-class VirtualMachineListViewModel : ViewModel() {
+class VirtualMachineListViewModel(application: Application) : AndroidViewModel(application) {
 
     //live data objects
-    private val _listVM = MutableLiveData<List<VirtualMachine>>()
-    private val  mock = VirtualMachineMock()
-    val listVms: LiveData<List<VirtualMachine>>
-        get() = _listVM
+    private val _status = MutableLiveData<ApiStatus>()
+    val status: LiveData<ApiStatus>
+        get() = _status
+
+    private val database = VirtualMachineDatabase.getInstance(application.applicationContext)
+    private val virtualMachineRepository = VirtualMachineRepository(database)
+
+    val virtualMachineList = virtualMachineRepository.virtualmachines
 
     init {
-        initializeLiveData()
-    }
+        Timber.i("Refreshing the VMs")
 
-    private fun initializeLiveData(){
         viewModelScope.launch {
-            _listVM.value = mock.virtualMachines
+            _status.value = ApiStatus.LOADING
+
+            try {
+                virtualMachineRepository.refreshVirtualMachines()
+                _status.value = ApiStatus.DONE
+            } catch (e: Exception) {
+                Timber.e("Exception occurred while refreshing the virtualmachines", e)
+                _status.value = ApiStatus.ERROR
+            }
         }
     }
+
 
 }

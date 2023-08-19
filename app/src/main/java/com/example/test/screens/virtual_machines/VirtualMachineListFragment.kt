@@ -4,34 +4,36 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.test.R
 import com.example.test.databinding.FragmentVirtualMachineListBinding
-import com.example.test.interfaces.VirtualMachineApi
-import com.example.test.utils.RetrofitBuilder
 
 class VirtualMachineListFragment : Fragment() {
+    companion object {
+        fun newInstance() = VirtualMachineListFragment()
+    }
 
-    private lateinit var virtualMachineApi : VirtualMachineApi
+    private lateinit var binding: FragmentVirtualMachineListBinding
+    private lateinit var adapter: VirtualMachinesAdapter
+    private val viewModel: VirtualMachineListViewModel by lazy {
+        val activity = requireNotNull(this.activity)
+        ViewModelProvider(this, VirtualMachineListViewModelFactory(activity.application)).get(
+            VirtualMachineListViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        virtualMachineApi = RetrofitBuilder.getInstance().create(VirtualMachineApi::class.java)
-        val binding: FragmentVirtualMachineListBinding=
-            DataBindingUtil.inflate(inflater, R.layout.fragment_virtual_machine_list, container, false)
-
-        val viewModelFactory = VirtualMachineListViewModelFactory()
-        val viewModel = ViewModelProvider(this, viewModelFactory)[VirtualMachineListViewModel::class.java]
-
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_virtual_machine_list, container, false)
         binding.virtualMachineListViewModel = viewModel
         binding.lifecycleOwner = this
 
-        val adapter = VirtualMachinesAdapter( VirtualMachineListener {
+        adapter = VirtualMachinesAdapter( VirtualMachineListener {
             virtualMachineID ->
             findNavController().navigate(VirtualMachineListFragmentDirections.
             actionVirtualMachineListFragmentToVirtualMachineDetailFragment(
@@ -45,10 +47,8 @@ class VirtualMachineListFragment : Fragment() {
             DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
         )
 
-        viewModel.listVms.observe(viewLifecycleOwner) {
-            println("List got ${it.size}")
-            adapter.submitList(it)
-        }
+        viewModel.virtualMachineList.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it) })
 
         return binding.root
     }

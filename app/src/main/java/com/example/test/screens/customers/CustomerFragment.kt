@@ -1,7 +1,10 @@
 package com.example.test.screens.customers
 
+import android.app.Activity
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -9,10 +12,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.test.domain.CustomerMock
 import com.example.test.R
 import com.example.test.databinding.CustomerDetailFragmentBinding
 import com.example.test.domain.Customer
+import com.example.test.domain.CustomerMock
 import com.example.test.screens.virtual_machines.*
 
 class CustomerFragment : Fragment() {
@@ -35,8 +38,11 @@ class CustomerFragment : Fragment() {
             false
         )
 
+
         //viewModel
-        val viewModelFactory = CustomerViewModelFactory(args.customerId)
+        val activity = requireNotNull(this.activity)
+
+        val viewModelFactory = CustomerViewModelFactory(activity.application, args.customerId)
         val viewModel: CustomerViewModel by viewModels{viewModelFactory}
 
         // Set the viewmodel for databinding - this allows the bound layout access to all of the
@@ -44,12 +50,11 @@ class CustomerFragment : Fragment() {
         binding.customersViewModel = viewModel
 
         //Add items to the ListView and make it clickable
-        arraylist = CustomerMock().customers
-        //binding.CustomerNameLbl.text = arraylist[args.CustomerId].name
 
-        val vmViewModelFactory = VirtualMachineListViewModelFactory();
-        val vmViewModel = ViewModelProvider(this, vmViewModelFactory).get(VirtualMachineListViewModel::class.java)
-        binding.virtualMachineListViewModel = vmViewModel
+
+//        val vmViewModelFactory = VirtualMachineListViewModelFactory(activity.application);
+//        val vmViewModel = ViewModelProvider(this, vmViewModelFactory).get(VirtualMachineListViewModel::class.java)
+//        binding.virtualMachineListViewModel = vmViewModel
 
         // Specify the current activity as the lifecycle owner of the binding. This is used so that
         // the binding can observe LiveData updates
@@ -69,9 +74,9 @@ class CustomerFragment : Fragment() {
             DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL)
         )
 
-        vmViewModel.listVms.observe(viewLifecycleOwner, Observer {
-            println("List got ${it.size}")
-            adapter.submitList(it) })
+//        vmViewModel.virtualMachineList.observe(viewLifecycleOwner, Observer {
+//            println("List got ${it.size}")
+//            adapter.submitList(it) })
 
 
         return binding.root
